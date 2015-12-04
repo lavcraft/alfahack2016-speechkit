@@ -1,5 +1,6 @@
 package ru.hack2016.microbot.speechkit;
 
+import org.apache.commons.lang3.ArrayUtils;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -7,7 +8,6 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
-import java.util.Arrays;
 
 /**
  * Created by aleksandr on 04.12.15.
@@ -28,8 +28,10 @@ public class SpeechRecognitor {
     );
 
     TargetDataLine targetDataLine = null;
+    String topic = null;
 
-    public SpeechRecognitor() {
+    public SpeechRecognitor(String topic) {
+        this.topic = topic;
         initTargetLine();
     }
 
@@ -48,20 +50,29 @@ public class SpeechRecognitor {
     public Observable<String> recognize() {
         final Observable<String> recognizePoller = Observable.create(
                 new Observable.OnSubscribe<String>() {
-                    byte[] data = new byte[150000];
+
+                    byte[] data = new byte[50000];
+
+                    byte[] buffer = new byte[] {};
 
                     @Override
                     public void call(Subscriber<? super String> sub) {
-                        YandexPoller poller = new YandexPoller();
+                        YandexPoller poller = new YandexPoller(format);
 
                         try {
                             while (!Thread.currentThread().isInterrupted()) {
-                                int count = targetDataLine.read(data, 0, data.length);
+                                buffer = ArrayUtils.clone(data);
+
+                                targetDataLine.read(data, 0, data.length);
 
                                 PollerThread pollerThread = new PollerThread();
                                 pollerThread.setSub(sub);
                                 pollerThread.setPoller(poller);
-                                pollerThread.setAudioData(Arrays.copyOf(data, count));
+                                pollerThread.setAudioData(
+                                        ArrayUtils.addAll(
+                                                buffer,
+                                                data)
+                                        );
                                 pollerThread.start();
                             }
 
@@ -96,7 +107,7 @@ public class SpeechRecognitor {
 
         public void run() {
             try {
-                sub.onNext(poller.process(audioData));
+                sub.onNext(poller.process(topic, audioData));
             } catch (Exception e) {
                 System.out.println(e);
                 e.printStackTrace();

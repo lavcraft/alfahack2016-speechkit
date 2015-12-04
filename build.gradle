@@ -13,6 +13,7 @@ buildscript {
 apply plugin: 'idea'
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'com.google.protobuf'
 
 apply plugin: 'maven-publish'
@@ -25,7 +26,7 @@ repositories {
 }
 
 group = 'ru.hack2016.microbot'
-version = '0.0.3'
+version = '0.0.11'
 
 protobuf {
     protoc {
@@ -48,6 +49,7 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.5.1'
     compile 'io.reactivex:rxjava:1.0.17'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.codehaus.groovy:groovy-all:2.4.5'
 
     testCompile 'junit:junit:4.12'
 }
