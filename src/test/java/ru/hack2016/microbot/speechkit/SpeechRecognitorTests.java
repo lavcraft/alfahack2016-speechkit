@@ -1,4 +1,4 @@
-package ru.hack2016.microbot.goods;
+package ru.hack2016.microbot.speechkit;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -24,8 +24,8 @@ repositories {
     jcenter()
 }
 
-group = 'ru.hack2016.microbot.goods'
-version = '0.0.1'
+group = 'ru.hack2016.microbot'
+version = '0.0.2'
 
 protobuf {
     protoc {
@@ -59,6 +59,10 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+
+            groupId group
+            artifactId project.name
+            version version
 
             artifact sourceJar {
                 classifier "sources"
