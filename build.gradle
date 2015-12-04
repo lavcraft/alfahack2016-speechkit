@@ -25,7 +25,7 @@ repositories {
 }
 
 group = 'ru.hack2016.microbot'
-version = '0.0.2'
+version = '0.0.3'
 
 protobuf {
     protoc {
@@ -47,6 +47,7 @@ dependencies {
     compile 'com.google.protobuf:protobuf-java:3.0.0-alpha-3'
     compile 'org.apache.httpcomponents:httpclient:4.5.1'
     compile 'io.reactivex:rxjava:1.0.17'
+    compile 'org.apache.commons:commons-lang3:3.4'
 
     testCompile 'junit:junit:4.12'
 }

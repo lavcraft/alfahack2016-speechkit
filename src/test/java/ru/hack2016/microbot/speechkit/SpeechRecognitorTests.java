@@ -13,7 +13,7 @@ public class SpeechRecognitorTests {
 
     @Test
     public void simple_test() throws Exception {
-        SpeechRecognitor recognitor = new SpeechRecognitor(10000);
+        SpeechRecognitor recognitor = new SpeechRecognitor(1000);
 
         Subscriber<String> subscriber = new Subscriber<String>() {
             @Override
